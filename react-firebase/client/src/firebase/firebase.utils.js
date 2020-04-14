@@ -13,6 +13,40 @@ const config = {
     measurementId: "G-PK03W7FVCL"
   }
 
+   //function allow us to take the user that return from auth library and store in database
+   export const createUserProfileDocument = async (userAuth, additionalData) => {
+     //we only want to store the user in db if auth return an object(when user sign in)
+     if(!userAuth) return;
+       
+     //if the userAuth fun exist we will query inside firestore to see if it exist
+     const userRef = firestore.doc(`users/${userAuth.uid}`);
+
+     const snapShot = await userRef.get();
+     console.log(snapShot);
+     
+     if(!snapShot.exist){
+       //we want to create data for that using ref object 
+       const { displayName, email } = userAuth;
+       const createdAt = new Date();
+      
+       //making async req for db to store data
+
+       try{
+        await userRef.set({
+          displayName,
+          email,
+          createdAt,
+          ...additionalData
+        })
+       } catch (err) {
+         console.log('error creating user', err.message)
+
+       }
+     }
+     
+     return userRef;
+   }
+
   firebase.initializeApp(config);
 
   export const auth = firebase.auth();
