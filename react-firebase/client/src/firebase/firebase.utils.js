@@ -43,7 +43,7 @@ const config = {
 
        }
      }
-     
+     console.log(userRef);
      return userRef;
    }
 
