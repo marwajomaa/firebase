@@ -2,11 +2,12 @@ import React from 'react';
 
 const FormInput = ({label, handleChange, ...otherProps}) =>{
     return(
-    <div>
+    <div style ={{display: 'flex', flexDirection: 'column'}}>
+        {label ? <label>{label}</label>: null}
         <input
          onChange={handleChange}
          {...otherProps}
-        ></input>
+        />
     </div>
     )
 }
