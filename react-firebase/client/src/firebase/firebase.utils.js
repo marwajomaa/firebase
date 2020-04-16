@@ -15,6 +15,7 @@ const config = {
 
    //function allow us to take the user that return from auth library and store in database
    export const createUserProfileDocument = async (userAuth, additionalData) => {
+     console.log(userAuth, additionalData,'dddddddddddddddddata')
      //we only want to store the user in db if auth return an object(when user sign in)
      if(!userAuth) return;
        
@@ -22,9 +23,9 @@ const config = {
      const userRef = firestore.doc(`users/${userAuth.uid}`);
 
      const snapShot = await userRef.get();
-     console.log(snapShot);
      
-     if(!snapShot.exist){
+     console.log(snapShot.exists)
+     if(!snapShot.exists){
        //we want to create data for that using ref object 
        const { displayName, email } = userAuth;
        const createdAt = new Date();
@@ -32,12 +33,13 @@ const config = {
        //making async req for db to store data
 
        try{
-        await userRef.set({
+       const newUser = await userRef.set({
           displayName,
           email,
           createdAt,
           ...additionalData
         })
+        console.log(newUser,'newwwwwwwwwwww')
        } catch (err) {
          console.log('error creating user', err.message)
 

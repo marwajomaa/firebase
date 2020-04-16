@@ -26,12 +26,14 @@ class SignUp extends Component {
            this.setState(initialState)
            return;
        }
-
+       //create new user account with createUserWithEmailAndPassword method 
        try{
         const { user } = await auth.createUserWithEmailAndPassword(email, password);
         console.log(user,'------------');
         
+
         await createUserProfileDocument(user, { displayName });
+        this.setState(initialState)
 
        } catch(error) {
         console.log(error.message)
@@ -41,7 +43,7 @@ class SignUp extends Component {
 
    handleChange = (e) => {
      const { name, value } = e.target;
-     this.setState({[name]: value})
+     this.setState({[name]: value}, ()=>console.log(this.state.displayName))
    }
 
     render(){
