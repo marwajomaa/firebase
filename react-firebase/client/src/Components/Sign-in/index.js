@@ -16,10 +16,10 @@ class SignIn extends Component {
    handleSubmit = async event => {
        event.preventDefault();
        
+    try{
        const { email, password } = this.state;
        const user = await auth.signInWithEmailAndPassword(email, password);
        this.setState(initialState)
-       try{
     } catch(error) {
         console.log('error signing in user', error.message);
         
